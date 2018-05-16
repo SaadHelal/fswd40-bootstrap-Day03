@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <h1>Progress bar test</h1>
+
+    <div class="container">
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script>
+        let progress = [0,25,50,74,100,0]
+
+        for (let i = 0; i < progress.length; i++) {
+            $(".container").append("<div class=\"row\">")
+            $(`.row:eq(${i})`).append("<div class=\"progress col-lg-6 offset-lg-3\">")
+            $(".row").css("paddingTop", "20px")
+            $(`.progress:eq(${i})`).append("<div class=\"progress-bar progress-bar-striped progress-bar-animated bg-success\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>")
+            $(`.progress-bar:eq(${i})`).attr("aria-valuenow",progress[i]); 
+            $(`.progress-bar:eq(${i})`).attr("style","width:"+progress[i]+"%"); 
+            $(`.progress-bar:eq(${i})`).html(progress[i]+"%");
+             
+            if (progress[i] < 60) {
+                $(`.progress-bar:eq(${i})`).removeClass("bg-success")
+            } else if ((progress[i] < 75) && (progress[i] > 60)) {
+                $(`.progress-bar:eq(${i})`).removeClass("bg-success").addClass("bg-warning")
+            }
+
+        }
+
+        let progressBar = $('.progress-bar:eq(5)'),
+            width = 0;
+
+        let progressIncrement = setInterval(function() {
+
+            width += 5;
+
+            progressBar.css('width', width + '%');
+            progressBar.removeClass("bg-success")
+            progressBar.addClass("bg-warning")
+            $(progressBar).attr("aria-valuenow", width)
+            $(progressBar).html(width + "%");
+            if (width >= 75) {
+                progressBar.removeClass("bg-success").addClass("bg-danger")
+            }
+            if (width >= 100) {
+                clearInterval(progressIncrement);
+                progressBar.removeClass("bg-danger bg-warning").addClass("bg-success")
+            }
+        }, 300)
+    </script>
+</body>
+</html>
+
+
+<!-- if ($(`.progress-bar:eq(${i})`).attr("style") == "width:74%") {
+    $(`.progress-bar:eq(${i})`).removeClass("bg-success").addClass("bg-warning")
+} 
+else if ($(`.progress-bar:eq(${i})`).attr("style") <= "width:74%") {
+    $(`.progress-bar:eq(${i})`).removeClass("bg-success").addClass("bg-warning")
+} -->
